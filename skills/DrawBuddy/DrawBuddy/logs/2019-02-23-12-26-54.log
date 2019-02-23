@@ -1,0 +1,4 @@
+12:26:54 [Skill] INFO  Skill:137 - Connecting to Furhat server on 192.168.0.10:1932
+12:26:55 [DrawbuddySkill] INFO  DrawbuddySkill:171 - Starting skill
+12:26:55 [DrawbuddySkill] WARN  GUIServer: 49 - Detected an absolute filepath being used for a GUI! Be aware that this filepath will not work when the skill has been deployed on the robot.
+12:27:16 [Thread-1] INFO  DrawbuddySkill:188 - Terminating skill
