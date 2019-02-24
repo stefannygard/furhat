@@ -5,7 +5,12 @@ var app = {};
 
 Furhat(function (furhat) {
   furhat.subscribe('furhatos.app.drawbuddy.DataDelivery', function(data){ 
-    console.log(data);
+    
+    if(data.action == 'init') {
+      $('svg').removeClass('hidden');
+      $('svg').addClass('fadeIn animated');
+    }
+    
   });
   
   app.sendEvent = function() {

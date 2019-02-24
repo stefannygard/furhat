@@ -19,7 +19,7 @@ val NoGUI : State = state(null) {
 val Idle: State = state {
 
     init {
-        furhat.setVoice(Language.SWEDISH, Gender.FEMALE)
+        furhat.setVoice(Language.ENGLISH_US, Gender.FEMALE)
         if (users.count > 0) {
             furhat.attend(users.random)
             goto(Start)
