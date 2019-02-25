@@ -25,7 +25,7 @@ val Start = state {
         goto(Idle)
     }
 
-    onResponse<RequestWhatToPlayOptions> {
+    onResponse<RequestAvailableGamesIntent> {
         furhat.say("We can make a drawing together")
         reentry()
     }
@@ -36,8 +36,8 @@ val Start = state {
 
     onResponse<Yes> {
         furhat.say("How fun, I'll set up the drawing board for us!")
-        send(DataDelivery(action = "init"))
-        //goto(Idle)
+        send(DataDelivery(action = "init", setValue=""))
+        goto(StartDrawing)
     }
 
 }
@@ -45,6 +45,35 @@ val Start = state {
 // start drawing
 val StartDrawing = state {
     onEntry {
-        { furhat.ask("Now you can draw on the canvas") }
+        furhat.say("Now you can draw on the canvas")
+    }
+    onEvent("drawPathComplete") {
+        furhat.say("Nice line" );
+        goto(RequestWantHelp);
+    }
+}
+
+// draw together
+val RequestWantHelp= state {
+    onEntry {
+        furhat.ask("Do you want some help styling that line?")
+    }
+    onReentry {
+        furhat.listen();
+    }
+    onResponse<Yes> {
+        furhat.say("How fun, I can fill, change pen size, or change pen color!")
+        reentry();
+    }
+    onResponse<No> {
+        reentry();
+    }
+
+    onResponse<FillIntent> {
+        var message = "Okay, I'll fill with"
+        if (it.intent.color != null) message += " ${it.intent.color}"
+        furhat.say(message);
+        if (it.intent.color != null) send(DataDelivery(action = "fill", setValue=it.intent.color.toString()))
+        reentry()
     }
 }

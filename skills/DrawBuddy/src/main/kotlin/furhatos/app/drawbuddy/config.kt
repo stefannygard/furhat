@@ -10,5 +10,6 @@ val PORT = 1234 // GUI Port
 
 // Event used to pass data to GUI
 class DataDelivery(
-    val action : String
+    val action : String,
+    val setValue: String
 ) : Event()
