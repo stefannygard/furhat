@@ -87,9 +87,8 @@ PaintBook.PaintHandler = PaintBook.Class.extend ({
     this.go = PaintBook.Global;
     this.drawEl = this.go.drawEl;
     this.drawElRaw = this.go.drawEl.get(0);
-    
-    this.drawEl.removeClass('hidden');
-    this.drawEl.addClass('fadeIn animated');
+  
+    this.showDrawEl();
    
     // bind: scope to this and create a new function
     this.penHandlerStart = this.penHandlerStart.bind(this); 
@@ -111,14 +110,20 @@ PaintBook.PaintHandler = PaintBook.Class.extend ({
     this.initPen();
   },
   reInit: function() {
-    this.go.currentPenColor = go.defaultPenColor;
-    this.go.currentFillColor = go.defaultFillColor;
-    this.drawEl.removeClass('hidden');
-    this.drawEl.addClass('fadeIn animated');
+    this.go.currentPenColor = this.go.defaultPenColor;
+    this.go.currentFillColor = this.go.defaultFillColor;
+    this.showDrawEl();
   },
   clearAndHide: function() {
     this.drawEl.empty();
     this.drawEl.addClass('hidden');
+  },
+  showDrawEl: function() {
+    var _this = this;
+    this.drawEl.removeClass('hidden');
+    this.drawEl.addClass('fadeIn animated');
+    this.drawElRaw.addEventListener('animationend', function() {   _this.drawEl.trigger('paintBook.drawReady', {}); 
+    })
   },
   initPen: function() {
     this.drawElRaw.addEventListener(this.go.clickEventType.start, this.penHandlerStart);
@@ -261,6 +266,9 @@ PaintBook.app = function() {
   go.drawEl.bind('paintBook.drawPathComplete',
     function(event,data) {
       _this.sendEvent("drawPathComplete",  {});
+  }).bind('paintBook.drawReady',
+    function(event,data) {
+      _this.sendEvent("drawingBoardReady",  {});
   });  
 }
 PaintBook.app();

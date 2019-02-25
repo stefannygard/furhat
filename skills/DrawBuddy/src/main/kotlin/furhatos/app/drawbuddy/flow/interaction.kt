@@ -28,7 +28,10 @@ val Start = state (Interaction) {
     onResponse<Yes> {
         furhat.say("How fun, I'll set up the drawing board for us!")
         send(DataDelivery(action = "init", setValue=""))
-        goto(StartDrawing)
+    }
+
+    onEvent("drawingBoardReady") {
+        goto(StartDrawing);
     }
 
 }
@@ -70,13 +73,13 @@ val DrawTogether= state (Interaction) {
     }
 
     onResponse<FillIntent> {
-        furhat.say("Okay, I'll fill with ${it.intent.color}");
+        furhat.say("Ok, fill ${it.intent.color}");
         send(DataDelivery(action = "fill", setValue=it.intent.color.toString()))
         reentry()
     }
 
     onResponse<ChangePenColorIntent> {
-        furhat.say("Okay, I'll change pen color to ${it.intent.color}");
+        furhat.say("Okay, pen color ${it.intent.color}");
         send(DataDelivery(action = "penColor", setValue=it.intent.color.toString()))
         reentry()
     }

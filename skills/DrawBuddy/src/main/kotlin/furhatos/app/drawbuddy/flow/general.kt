@@ -39,7 +39,7 @@ val Idle: State = state {
 
 val Interaction: State = state {
 
-    onUserLeave(instant = true) {
+    onUserLeave(instant = false) {
         furhat.say("Goodbye")
         send(DataDelivery(action = "shutDown", setValue=""))
         if (users.count > 0) {

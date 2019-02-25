@@ -18,7 +18,7 @@ class RequestStylingOptions : Intent() {
 class FillIntent: Intent() {
     var color : ListOfColor? = null;
     override fun getExamples(lang: Language): List<String> {
-        return listOf("Change fill color to @color",
+        return listOf("Fill @color",
                 "I want to fill with @color",
                 "Fill with @color ")
     }
