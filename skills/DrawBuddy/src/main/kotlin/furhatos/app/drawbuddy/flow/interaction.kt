@@ -59,12 +59,12 @@ val DrawTogether= state (Interaction) {
     }
 
     onResponse<RequestStylingOptions> {
-        furhat.say("I can fill or change pen color!")
+        furhat.say("I can fill, change pen size or change pen color!")
         furhat.ask("Do you want help styling?")
     }
 
     onResponse<Yes> {
-        furhat.say("I can fill or change pen color!")
+        furhat.say("I can fill, change pen size or change pen color!")
         reentry();
     }
 
@@ -81,6 +81,12 @@ val DrawTogether= state (Interaction) {
     onResponse<ChangePenColorIntent> {
         furhat.say("Okay, pen color ${it.intent.color}");
         send(DataDelivery(action = "penColor", setValue=it.intent.color.toString()))
+        reentry()
+    }
+
+    onResponse<ChangePenSizeIntent> {
+        furhat.say("Okay, pen size ${it.intent.size}");
+        send(DataDelivery(action = "penSize", setValue=it.intent.size.toString()))
         reentry()
     }
 

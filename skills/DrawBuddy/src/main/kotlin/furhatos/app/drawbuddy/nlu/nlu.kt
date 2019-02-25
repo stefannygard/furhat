@@ -27,6 +27,15 @@ class FillIntent: Intent() {
 class ChangePenColorIntent: Intent() {
     var color : ListOfColor? = null;
     override fun getExamples(lang: Language): List<String> {
-        return listOf("Change pen color to @color")
+        return listOf("Change pen color to @color",
+                "pen color @color")
+    }
+}
+
+class ChangePenSizeIntent: Intent() {
+    var size: Number? = Number(1);
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("Change pen size to @size",
+                "pen size @size")
     }
 }
