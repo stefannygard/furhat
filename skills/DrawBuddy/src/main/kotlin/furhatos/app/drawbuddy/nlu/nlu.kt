@@ -6,22 +6,27 @@ import furhatos.nlu.kotlin.grammar
 import furhatos.nlu.common.Number
 import furhatos.util.Language
 
-
-class RequestAvailableGamesIntent : Intent() {
+class RequestStylingOptions : Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("What can i play",
-                "What games do you have?",
+        return listOf("What can you do?",
+                "How can you help?",
                 "What are the alternatives?",
-                "What?")
+                "What styles?")
     }
 }
 
 class FillIntent: Intent() {
     var color : ListOfColor? = null;
     override fun getExamples(lang: Language): List<String> {
-        return listOf("Please change fill color to @color",
+        return listOf("Change fill color to @color",
                 "I want to fill with @color",
                 "Fill with @color ")
     }
 }
 
+class ChangePenColorIntent: Intent() {
+    var color : ListOfColor? = null;
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("Change pen color to @color")
+    }
+}

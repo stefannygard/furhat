@@ -1,4 +1,5 @@
 package furhatos.app.drawbuddy.flow
+import furhatos.app.drawbuddy.DataDelivery
 import furhatos.app.drawbuddy.PORT
 import furhatos.event.senses.SenseSkillGUIConnected
 import furhatos.flow.kotlin.*
@@ -39,6 +40,8 @@ val Idle: State = state {
 val Interaction: State = state {
 
     onUserLeave(instant = true) {
+        furhat.say("Goodbye")
+        send(DataDelivery(action = "shutDown", setValue=""))
         if (users.count > 0) {
             if (it == users.current) {
                 furhat.attend(users.other)

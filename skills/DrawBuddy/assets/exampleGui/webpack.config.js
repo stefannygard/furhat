@@ -11,6 +11,15 @@ module.exports = {
             test: /\.js$/,
             exclude: /node_modules/,
             use: 'babel-loader'
-        }]
+        }, 
+        { 
+          test: /\.modernizrrc\.json$/,
+          loader: "webpack-modernizr-loader!json-loader"
+         }]
+    },
+    resolve: {
+      alias: {
+        modernizr$: __dirname +  "/.modernizrrc.json"
+      }
     }
 };
