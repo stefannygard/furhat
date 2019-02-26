@@ -42,6 +42,7 @@ val StartDrawing = state (Interaction) {
         furhat.say("Now you can draw on the canvas")
     }
     onEvent("drawPathComplete") {
+        users.current.stats.drawnPaths++
         furhat.say("Nice line" );
         goto(DrawTogether);
     }
@@ -54,17 +55,23 @@ val DrawTogether= state (Interaction) {
         furhat.ask("Do you want some help styling that line?")
     }
 
+    onEvent("drawPathComplete") {
+        users.current.stats.drawnPaths++
+        furhat.say("Wow! You have now drawn ${users.current.stats.drawnPaths} lines" );
+        reentry();
+    }
+
     onReentry {
         furhat.listen();
     }
 
     onResponse<RequestStylingOptions> {
-        furhat.say("I can fill or change pen color!")
+        furhat.say("I can fill, change pen size or change pen color!")
         furhat.ask("Do you want help styling?")
     }
 
     onResponse<Yes> {
-        furhat.say("I can fill or change pen color!")
+        furhat.say("I can fill, change pen size or change pen color!")
         reentry();
     }
 
@@ -84,4 +91,9 @@ val DrawTogether= state (Interaction) {
         reentry()
     }
 
+    onResponse<ChangePenSizeIntent> {
+        furhat.say("Okay, pen size ${it.intent.size}");
+        send(DataDelivery(action = "penSize", setValue=it.intent.size.toString()))
+        reentry()
+    }
 }
