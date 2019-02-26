@@ -9,7 +9,7 @@ class ListOfColor : ListEntity<Color>()
 class Color : EnumEntity(speechRecPhrases = true) {
 
     override fun getEnum(lang: Language): List<String> {
-        return listOf("blue", "red", "green", "yellow")
+        return listOf("blue", "red", "green", "yellow", "black", "white")
     }
 
 }

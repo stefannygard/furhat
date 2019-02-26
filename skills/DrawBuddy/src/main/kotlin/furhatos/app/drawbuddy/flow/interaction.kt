@@ -57,7 +57,9 @@ val DrawTogether= state (Interaction) {
 
     onEvent("drawPathComplete") {
         users.current.stats.drawnPaths++
-        furhat.say("Wow! You have now drawn ${users.current.stats.drawnPaths} lines" );
+        if(users.current.stats.drawnPaths%5==0) {
+            furhat.say("Wow! You have now drawn ${users.current.stats.drawnPaths} lines" );
+        }
         reentry();
     }
 

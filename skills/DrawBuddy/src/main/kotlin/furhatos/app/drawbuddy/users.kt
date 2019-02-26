@@ -5,4 +5,5 @@ import furhatos.records.User
 
 // Associate a stats object to a user
 data class UserStats(var drawnPaths: Int)
-val User.stats by NullSafeUserDataDelegate { UserStats(0) }
+
+val User.stats : UserStats get() = data.getOrPut(UserStats::class.qualifiedName, UserStats(0))
