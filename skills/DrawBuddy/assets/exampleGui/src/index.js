@@ -95,8 +95,10 @@ PaintBook.PaintHandler = PaintBook.Class.extend ({
     this.penHandlerMove = this.penHandlerMove.bind(this); 
     this.penHandlerUp = this.penHandlerUp.bind(this); 
     this.penHandlerUpdatePathAttribute = this.penHandlerUpdatePathAttribute.bind(this); 
+    this.penHandlerUpdateStrokeWidth = this.penHandlerUpdateStrokeWidth.bind(this); 
 
     this.penData = {
+      defaultStrokeWidth: 10,
       strokeWidth: 10,
       boundingClientRect: this.drawElRaw.getBoundingClientRect(),
       bufferSize: 3,
@@ -112,6 +114,7 @@ PaintBook.PaintHandler = PaintBook.Class.extend ({
   reInit: function() {
     this.go.currentPenColor = this.go.defaultPenColor;
     this.go.currentFillColor = this.go.defaultFillColor;
+    this.penData.strokeWidth = this.penData.defaultStrokeWidth;
     this.showDrawEl();
   },
   clearAndHide: function() {
@@ -148,6 +151,10 @@ PaintBook.PaintHandler = PaintBook.Class.extend ({
     this.penData.strPath = "M" + pt.x + " " + pt.y;
     this.penData.path.setAttribute("d", this.penData.strPath);
     this.drawEl.append(this.penData.path);
+  },
+  penHandlerUpdateStrokeWidth: function(val) {
+    this.penData.strokeWidth = val;
+    this.penHandlerUpdatePathAttribute('stroke-width', val);
   },
   penHandlerUpdatePathAttribute: function(name, val) {
     this.penData.path.setAttribute(name, val);
@@ -233,23 +240,29 @@ PaintBook.app = function() {
   var _this = this;
 
   this.onFurhatMessage = function(data) {
-    if(data.action == 'init') {
-      if (typeof(paint)==='undefined') {
-        paint = new PaintBook.PaintHandler();
-      } else {
-        paint.reInit();
-      }
-    }
-    else if(data.action == 'shutDown') {
+    
+    switch(data.action) {
+      case 'init':
+        if (typeof(paint)==='undefined') {
+          paint = new PaintBook.PaintHandler();
+        } else {
+          paint.reInit();
+        }
+        break;
+      case 'shutDown':
         paint.clearAndHide();
-    }
-    else if(data.action == 'fill') {
-      go.currentFillColor = data.setValue;
-      paint.penHandlerUpdatePathAttribute('fill',   go.currentFillColor);
-    }
-    else if(data.action == 'penColor') {
-      go.currentPenColor = data.setValue;
-      paint.penHandlerUpdatePathAttribute('stroke',   go.currentPenColor);
+        break;
+      case 'fill':
+        go.currentFillColor = data.setValue;
+        paint.penHandlerUpdatePathAttribute('fill',   go.currentFillColor);
+        break;
+      case 'penColor':
+        go.currentPenColor = data.setValue;
+        paint.penHandlerUpdatePathAttribute('stroke',   go.currentPenColor);
+        break;
+      case 'penSize':
+        paint.penHandlerUpdateStrokeWidth(data.setValue);
+        break;
     }
   } 
   Furhat(function (furhat) {

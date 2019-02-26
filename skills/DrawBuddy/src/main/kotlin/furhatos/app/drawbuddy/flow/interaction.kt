@@ -42,6 +42,7 @@ val StartDrawing = state (Interaction) {
         furhat.say("Now you can draw on the canvas")
     }
     onEvent("drawPathComplete") {
+        users.current.stats.drawnPaths++
         furhat.say("Nice line" );
         goto(DrawTogether);
     }
@@ -52,6 +53,12 @@ val DrawTogether= state (Interaction) {
 
     onEntry {
         furhat.ask("Do you want some help styling that line?")
+    }
+
+    onEvent("drawPathComplete") {
+        users.current.stats.drawnPaths++
+        furhat.say("Wow! You have now drawn ${users.current.stats.drawnPaths} lines" );
+        reentry();
     }
 
     onReentry {
@@ -89,5 +96,4 @@ val DrawTogether= state (Interaction) {
         send(DataDelivery(action = "penSize", setValue=it.intent.size.toString()))
         reentry()
     }
-
 }

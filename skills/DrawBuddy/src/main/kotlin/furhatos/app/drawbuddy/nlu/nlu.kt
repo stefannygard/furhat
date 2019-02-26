@@ -33,7 +33,7 @@ class ChangePenColorIntent: Intent() {
 }
 
 class ChangePenSizeIntent: Intent() {
-    var size: Number? = Number(1);
+    var size: Number? = Number(3);
     override fun getExamples(lang: Language): List<String> {
         return listOf("Change pen size to @size",
                 "pen size @size")

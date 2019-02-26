@@ -3,7 +3,7 @@
 **/out
 **/.gradle
 **/logs
-
-**/exampleGui/dist
+# lets keep these for easier demo:
+# **/exampleGui/dist 
 **/node_modules/  
 **/build
